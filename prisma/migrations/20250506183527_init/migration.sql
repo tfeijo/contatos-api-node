@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "contatos" (
-    "id" SERIAL NOT NULL,
+    "id" UUID NOT NULL,
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "cnpj" TEXT NOT NULL,
