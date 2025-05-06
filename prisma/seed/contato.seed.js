@@ -1,18 +1,19 @@
 module.exports = async function (prisma) {
-  await prisma.contato.createMany({
-    data: [
-      {
-        nome: 'João Silva',
-        email: 'joao.silva@email.com',
-        cnpj: '12345678000190',
-      },
-      {
-        nome: 'Maria Souza',
-        email: 'maria.souza@email.com',
-        cnpj: '98765432000155',
-      },
-    ],
+  await prisma.contato.create({
+    data: {
+      nome: 'João Silva',
+      email: 'joao.silva@email.com',
+      cnpj: '12345678000190',
+    },
   });
-  
-  console.log("Seed de contatos executado");
+
+  await prisma.contato.create({
+    data: {
+      nome: 'Maria Souza',
+      email: 'maria.souza@email.com',
+      cnpj: '98765432000155',
+    },
+  });
+
+  console.log("✅ Seed de contatos executado com sucesso!");
 };
