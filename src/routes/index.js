@@ -1,5 +1,5 @@
 const express = require('express');
-const contatoRoutes = require('./contato.routes');
+const contatoRoutes = require('./contatos.routes');
 
 const router = express.Router();
 
