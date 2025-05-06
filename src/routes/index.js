@@ -5,4 +5,4 @@ const router = express.Router();
 
 router.use('/contatos', contatoRoutes);
 
-module.exports = router
+module.exports = router;

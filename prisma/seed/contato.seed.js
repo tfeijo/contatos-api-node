@@ -15,5 +15,5 @@ module.exports = async function (prisma) {
     },
   });
 
-  console.log("✅ Seed de contatos executado com sucesso!");
+  console.log('✅ Seed de contatos executado com sucesso!');
 };
