@@ -11,4 +11,3 @@ runAllSeeds(prisma)
   .finally(async () => {
     await prisma.$disconnect();
   });
-  
