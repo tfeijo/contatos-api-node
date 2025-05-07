@@ -1,4 +1,4 @@
-const { sanitizeCNPJ } = require('../utils/sanitize');
+const sanitizeCNPJ = require('../utils/sanitizeCNPJ');
 
 function sanitizeCNPJMiddleware(req, res, next) {
   if (req.body && req.body.cnpj) {
