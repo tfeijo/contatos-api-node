@@ -1,4 +1,4 @@
-const contatoSeed = require('./contato.seed');
+const contatoSeed = require('./contatos.seed');
 
 async function runAllSeeds(prisma) {
   await contatoSeed(prisma);

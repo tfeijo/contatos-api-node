@@ -4,7 +4,8 @@
   "description": "Sistema A – API de contatos com Node.js e PostgreSQL",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
+    "postinstall": "prisma generate",
+    "start": "npx prisma migrate deploy && node src/server.js",
     "dev": "nodemon src/server.js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
