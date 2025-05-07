@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "1ac4cebe-0ab1-40cf-8887-3bfaceb7eb9d",
+		"name": "contatos-redix",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9641741"
+	},
+	"item": [
+		{
+			"name": "create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 201 - contato criado\", () => {\r",
+							"  pm.response.to.have.status(201);\r",
+							"  pm.expect(pm.response.json()).to.have.property(\"id\");\r",
+							"  pm.expect(pm.response.json()).to.have.property(\"nome\");\r",
+							"  pm.expect(pm.response.json()).to.have.property(\"email\");\r",
+							"  pm.expect(pm.response.json()).to.have.property(\"cnpj\");\r",
+							"  \r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"if (response.id) {\r",
+							"  pm.environment.set(\"contatoId\", response.id);\r",
+							"  pm.environment.set(\"contatoNome\", response.nome);\r",
+							"  pm.environment.set(\"contatoEmail\", response.email);\r",
+							"  pm.environment.set(\"contatoCnpj\", response.cnpj);\r",
+							"\r",
+							"  console.warn(\"Contato salvo!!!!\");\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN_CONTATOS}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"{{name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"cnpj\": \"{{cnpj}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/contatos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"contatos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200 - contatos listados\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"  const body = pm.response.json();\r",
+							"  pm.expect(body.data.length).to.be.above(0);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN_CONTATOS}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/contatos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"contatos"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200 - contato editado\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const timestamp = Date.now();\r",
+							"pm.environment.set(\"novoNome\", `edited_user${timestamp} Aaaaaaaa`);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN_CONTATOS}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"{{novoNome}}\",\r\n    \"email\": \"{{contatoEmail}}\",\r\n    \"cnpj\": \"{{contatoCnpj}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/contatos/{{contatoId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"contatos",
+						"{{contatoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 204 - contato deletado com sucesso\", () => {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Resposta sem conteúdo (No Content)\", () => {\r",
+							"  pm.expect(pm.response.text()).to.eql('');\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN_CONTATOS}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/contatos/{{contatoId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"contatos",
+						"{{contatoId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{TOKEN_CONTATOS}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"function gerarCNPJ() {\r",
+					"  function gerarDigito(cnpj, pesos) {\r",
+					"    const soma = cnpj\r",
+					"      .map((num, i) => num * pesos[i])\r",
+					"      .reduce((acc, val) => acc + val, 0);\r",
+					"\r",
+					"    const resto = soma % 11;\r",
+					"    return resto < 2 ? 0 : 11 - resto;\r",
+					"  }\r",
+					"\r",
+					"  // Gera base: 8 dígitos + 0001\r",
+					"  const base = Array.from({ length: 8 }, () => Math.floor(Math.random() * 10));\r",
+					"  base.push(0, 0, 0, 1);\r",
+					"\r",
+					"  const peso1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];\r",
+					"  const d1 = gerarDigito(base, peso1);\r",
+					"  const peso2 = [6].concat(peso1);\r",
+					"  const d2 = gerarDigito(base.concat(d1), peso2);\r",
+					"\r",
+					"  const cnpj = base.concat([d1, d2]).join('');\r",
+					"  return cnpj;\r",
+					"}\r",
+					"\r",
+					"pm.environment.set(\"cnpj\", gerarCNPJ());\r",
+					"\r",
+					"\r",
+					"const timestamp = Date.now();\r",
+					"pm.environment.set(\"email\", `user_${timestamp}@example.com`);\r",
+					"pm.environment.set(\"name\", `user_${timestamp} Sobrenome`);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "{{token-local}}",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXN0ZW1hIjoiY29udGF0b3MtYXBpIiwiaWF0IjoxNzQ2NjQwOTIwLCJleHAiOjE3NDcyNDU3MjB9.dTijm3KQIvrFppfvHOhkClowHU85o2vj3SmIij7iBiI",
+			"type": "string"
+		}
+	]
+}
