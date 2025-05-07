@@ -1,6 +1,8 @@
 const express = require('express');
 const prisma = require('../database/prisma');
 
+const { validate: isUUID } = require('uuid');
+
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -25,7 +27,13 @@ router.get('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+  
+  if (!isUUID(id)) {
+    const status  = 400
+    const message = 'Identificador inválido.'
+    return res.status(status).json({ error: message })
+  }
+
   try {
     await prisma.contato.delete({
       where: { id },
