@@ -66,7 +66,7 @@ async function listarContatos(req, res) {
       prisma.contato.count(),
     ]);
 
-    totalPages = Math.ceil(total / limit);
+    const totalPages = Math.ceil(total / limit);
 
     check_page_param(page, totalPages, res);
 
@@ -74,8 +74,6 @@ async function listarContatos(req, res) {
       ...contato,
       cnpj: contato.cnpj ? formatCNPJ(contato.cnpj) : null,
     }));
-
-    totalPages = Math.ceil(total / limit);
 
     res.status(200).json({
       data: formatados,
