@@ -1,6 +1,8 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import { defineConfig } from 'eslint/config';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+
 
 export default defineConfig([
   {
@@ -21,6 +23,5 @@ export default defineConfig([
       ...js.configs.recommended.rules,
       'prettier/prettier': 'error',
     },
-    prettier,
   },
 ]);
