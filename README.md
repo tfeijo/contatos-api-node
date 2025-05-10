@@ -1,145 +1,96 @@
-# 📡 API de Contatos – Sistema A
+# contatos-api-node
 
-API RESTful para cadastro, listagem, atualização e remoção de contatos empresariais.
+API de gerenciamento de contatos desenvolvida com Node.js, Express e PostgreSQL. Utiliza Prisma ORM, autenticação com JWT e validação com Zod. Arquitetura moderna, extensível e preparada para produção com Docker e integração contínua.
 
----
+## 📚 Descrição
+
+Projeto de backend para o **Sistema A**, responsável pelo cadastro, autenticação e gerenciamento de contatos. Ideal para aplicações com estrutura RESTful e foco em segurança e validação robusta de dados.
 
 ## 🚀 Tecnologias
 
-- Node.js + Express
-- Prisma ORM + PostgreSQL
-- JWT para autenticação
-- Zod para validação de dados
-- Postman para testes automatizados
+- **Node.js** + **ESM Modules**
+- **Express** (framework web)
+- **Prisma ORM** (acesso a dados)
+- **PostgreSQL**
+- **JWT** (autenticação)
+- **Zod** (validação)
+- **Docker/Docker Compose**
+- **ESLint + Prettier** (padronização)
 
----
-
-## ⚙️ Instalação e uso
+## 📦 Instalação
 
 ```bash
-git clone git@github.com:tfeijo/contatos-api-node.git
+git clone https://github.com/seu-usuario/contatos-api-node.git
 cd contatos-api-node
-
-# Instalar dependências
 npm install
-
-# Copiar variáveis de ambiente
 cp .env_example .env
-
-# Iniciar aplicação
-npm start
 ```
 
----
+Configure seu banco PostgreSQL e atualize as variáveis no `.env`.
+
+## 🔧 Scripts
+
+| Comando            | Ação                                            |
+|--------------------|-------------------------------------------------|
+| `npm run dev`      | Inicia em modo desenvolvimento com `nodemon`   |
+| `npm start`        | Aplica migrations e inicia o servidor           |
+| `npm run lint`     | Executa o ESLint                                |
+| `npm run lint:fix` | Corrige problemas automaticamente               |
+| `npm run prettier` | Formata o código com Prettier                   |
+
+## 🧬 Banco de Dados
+
+- PostgreSQL
+- Gerenciado por Prisma (Schema + Migrations)
+- Rode migrations com:
+
+```bash
+npx prisma migrate dev
+```
+
+## 🐳 Docker
+
+Você pode rodar toda a aplicação com:
+
+```bash
+docker-compose up
+```
+
+Inclui banco de dados e suporte à orquestração local.
 
 ## 🔐 Autenticação
 
-Todas as rotas são protegidas por **JWT**.
-
-- Enviar o token via header:
+Autenticação via JWT.
+As rotas protegidas devem receber o token no cabeçalho `Authorization`:
 
 ```
 Authorization: Bearer <seu_token>
 ```
 
-- Gere o token manualmente com:
+## 🧰 Estrutura do Projeto
 
-```js
-const jwt = require('jsonwebtoken');
-const token = jwt.sign({ sistema: 'contatos-api' }, 'sua-chave-secreta', { expiresIn: '1h' });
+```
+src/
+├── server.js           # ponto de entrada
+├── routes/             # definição das rotas
+├── controllers/        # lógica de negócio
+├── middlewares/        # autenticação, validações
+├── services/           # lógica de aplicação
+├── prisma/             # schema e client Prisma
 ```
 
----
+## ✅ Boas Práticas
 
-## 📌 Endpoints
-
-### 🔸 POST `/contatos`
-
-Cria um novo contato.
-
-#### Body JSON
-
-```json
-{
-  "nome": "Empresa Exemplo",
-  "email": "empresa@exemplo.com",
-  "cnpj": "12345678000195"
-}
-```
-
-#### Respostas
-
-- `201 Created` – sucesso
-- `409 Conflict` – e-mail ou CNPJ em uso
-- `400 Bad Request` – validação falhou
-
----
-
-### 🔸 GET `/contatos?page=1&limit=30`
-
-Lista contatos com paginação.
-
-#### Resposta
-
-```json
-{
-  "data": [ ... ],
-  "pagination": {
-    "total": 100,
-    "page": 1,
-    "limit": 30,
-    "totalPages": 4
-  }
-}
-```
-
----
-
-### 🔸 PUT `/contatos/:id`
-
-Atualiza um contato existente.
-
-#### Body JSON
-
-```json
-{
-  "nome": "Novo Nome",
-  "email": "novo@email.com",
-  "cnpj": "98765432000101"
-}
-```
-
----
-
-### 🔸 DELETE `/contatos/:id`
-
-Remove o contato.
-
-#### Resposta
-
-- `204 No Content` – excluído com sucesso
-- `404 Not Found` – contato não existe
-
----
-
-## ✅ Variáveis de ambiente (.env)
-
-```env
-PORT=3000
-DATABASE_URL=postgres://usuario:senha@localhost:5432/contatos
-JWT_SECRET=sua-chave
-```
-
----
-
-## 🧪 Testes via Postman
-
-- Utilize a coleção Postman disponível em `/docs/postman_collection.json`
-- Configure a variável `{{token}}` com o JWT válido
-- Requisições de teste: criar, listar, editar e excluir contatos
-
----
+- Uso de ESM com `"type": "module"`
+- Validação robusta com Zod
+- Segurança com JWT
+- Estrutura modular
+- Linting e formatação padronizados
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT.
+[MIT](./LICENSE)
+
+---
+
+Desenvolvido por Thiago Feijó
