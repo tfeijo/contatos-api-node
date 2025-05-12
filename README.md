@@ -4,7 +4,7 @@ API de gerenciamento de contatos desenvolvida com Node.js, Express e PostgreSQL.
 
 ## 📚 Descrição
 
-Projeto de backend para o **Sistema A**, responsável pelo cadastro, autenticação e gerenciamento de contatos. Ideal para aplicações com estrutura RESTful e foco em segurança e validação robusta de dados.
+Projeto de backend para o **Sistema A**, responsável pelo cadastro, autenticação e gerenciamento de contatos.
 
 ## 🚀 Tecnologias
 
@@ -78,14 +78,6 @@ src/
 ├── services/           # lógica de aplicação
 ├── prisma/             # schema e client Prisma
 ```
-
-## ✅ Boas Práticas
-
-- Uso de ESM com `"type": "module"`
-- Validação robusta com Zod
-- Segurança com JWT
-- Estrutura modular
-- Linting e formatação padronizados
 
 ## 📄 Licença
 
